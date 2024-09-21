@@ -16,7 +16,8 @@ const CreateData = () => {
   }
   const dispatch = useDispatch();
   const [name, setName] = useState('');
-  const [profession, setProfession] = useState('')
+  const [profession, setProfession] = useState('');
+  
   const handleSubmit = async () => {
     await axiosInstance.post('/api', { name, profession })
       .then((response) => {

@@ -10,10 +10,11 @@ const Login = () => {
    axios.defaults.withCredentials = true;
 
     const HandleSubmit = async() => {
-        await axios.post('http://localhost:5001/api/user/login', {email, password})
+        await axios.post('http://localhost:5000/api/user/login', {email, password})
         .then(function (response){
-            if (response.data.accessToken) {
-                localStorage.setItem('token', response.data.accessToken); // Store the token
+            console.log("Login Response check",response)
+            if (response.data.refreshToken) {
+                localStorage.setItem('token', response.data.refreshToken);
                 navigate('/getData');
             }
           console.log(response.data);
@@ -22,17 +23,6 @@ const Login = () => {
           console.log(error);
         })
     }
-    // const HandleSubmit = async () => {
-    //     try {
-    //         const response = await axios.post('http://localhost:5001/api/user/login', { email, password });
-           
-    //         console.log(response.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-
     return (
         <div className='vh-100 d-flex justify-content-center align-items-center bg-primary'>
             <div className="p-3 bg-white card rounded col-12 col-md-5" >

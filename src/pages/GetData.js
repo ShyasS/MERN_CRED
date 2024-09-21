@@ -14,14 +14,10 @@ const GetData = () => {
   const users = useSelector((state)=>state.users.users)
   const cookies = new Cookies();
   console.log(cookies.cookies.accessToken)
-  if(!cookies.cookies.accessToken){
+  if(!cookies.cookies.accessToken ){
     navigate('/')
   }
-  const token = localStorage.getItem('token');
-    console.log("LocalStorage", token)
-    if(!token){
-      navigate('/')
-    }
+
 
     const fetchData = async()=>{
         await axiosInstance.get('/api')
@@ -36,6 +32,13 @@ const GetData = () => {
     useEffect(()=>{
         fetchData();
     },[])
+    useEffect(()=>{
+      const token = localStorage.getItem('token');
+      console.log("LocalStorage", token)
+      if(!token){
+        navigate('/')
+      }
+    },[])
     
     const handleDelete = (id)=>{
       axiosInstance.delete('/api/'+id)
@@ -49,6 +52,9 @@ const GetData = () => {
     }
     const logout = () => {
       cookies.remove('accessToken', { path: '/' });
+      console.log('Remaining cookies:', cookies.getAll());
+      navigate('/')
+      cookies.remove('refreshToken', { path: '/' });
       console.log('Remaining cookies:', cookies.getAll());
       navigate('/')
       const token = localStorage.removeItem('token');
